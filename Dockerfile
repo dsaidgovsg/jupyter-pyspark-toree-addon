@@ -5,7 +5,14 @@ FROM guangie88/jupyter-pyspark-toree:spark-${SPARK_VERSION}
 ARG PYTORCH_VERSION=0.4.1
 
 RUN set -eux; \
+    #
+    # Additional dev dependencies
+    #
+    apt-get update; \
+    apt-get install -y --no-install-recommends libspatialindex-dev; \
+    #
     # Common Python dependencies across 2 and 3
+    #
     PYTHON_DEPS=" \
         catboost \
         folium \
@@ -37,4 +44,8 @@ RUN set -eux; \
         http://download.pytorch.org/whl/cpu/torch-${PYTORCH_VERSION}-cp${PY2V}-cp${PY2V}mu-linux_x86_64.whl torchvision; \
     PY3V=$(python3 --version | sed -E 's/.+([[:digit:]]+)\.([[:digit:]])+\..+/\1\2/'); \
     python3 -m pip install --no-cache-dir \
-        http://download.pytorch.org/whl/cpu/torch-${PYTORCH_VERSION}-cp${PY3V}-cp${PY3V}m-linux_x86_64.whl torchvision
+        http://download.pytorch.org/whl/cpu/torch-${PYTORCH_VERSION}-cp${PY3V}-cp${PY3V}m-linux_x86_64.whl torchvision; \
+    #
+    # Remove apt cache
+    #
+    rm -rf /var/lib/apt/lists/*
