@@ -46,6 +46,12 @@ RUN set -eux; \
     python3 -m pip install --no-cache-dir \
         http://download.pytorch.org/whl/cpu/torch-${PYTORCH_VERSION}-cp${PY3V}-cp${PY3V}m-linux_x86_64.whl torchvision; \
     #
+    # Custom Spark connectors
+    #
+    # Google Cloud storage
+    wget -O /opt/spark-${SPARK_VERSION}/jars/gcs-connector-hadoop2-latest.jar \
+        https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-latest.jar; \
+    #
     # Remove apt cache
     #
     rm -rf /var/lib/apt/lists/*
