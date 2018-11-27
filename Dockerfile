@@ -5,10 +5,18 @@ FROM guangie88/jupyter-pyspark-toree:spark-${SPARK_VERSION}
 ARG PYTORCH_VERSION=0.4.1
 
 RUN set -eux; \
+    apt-get update; \
+    #
+    # Custom Spark connectors
+    #
+    # Google Cloud storage
+    apt-get install -y --no-install-recommends wget; \
+    wget -O ${SPARK_DIR}/jars/gcs-connector-hadoop2-latest.jar \
+        https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-latest.jar; \
+    apt-get remove -y wget; \
     #
     # Additional dev dependencies
     #
-    apt-get update; \
     apt-get install -y --no-install-recommends libspatialindex-dev; \
     #
     # Common Python dependencies across 2 and 3
@@ -45,12 +53,6 @@ RUN set -eux; \
     PY3V=$(python3 --version | sed -E 's/.+([[:digit:]]+)\.([[:digit:]])+\..+/\1\2/'); \
     python3 -m pip install --no-cache-dir \
         http://download.pytorch.org/whl/cpu/torch-${PYTORCH_VERSION}-cp${PY3V}-cp${PY3V}m-linux_x86_64.whl torchvision; \
-    #
-    # Custom Spark connectors
-    #
-    # Google Cloud storage
-    wget -O /opt/spark-${SPARK_VERSION}/jars/gcs-connector-hadoop2-latest.jar \
-        https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-latest.jar; \
     #
     # Remove apt cache
     #
