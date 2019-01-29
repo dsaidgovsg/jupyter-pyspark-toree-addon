@@ -21,6 +21,11 @@ Python dependencies to install over
 - `tensorflow`
 - `xgboost`
 
+## Additional JARs added to Spark to enable reading / writing of the following
+
+- GCS
+- S3
+
 ## Example build and run commands
 
 ```bash
