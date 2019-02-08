@@ -31,6 +31,7 @@ RUN set -eux; \
         folium \
         keras \
         matplotlib \
+        networkx \
         numpy \
         pandas \
         plotly \
