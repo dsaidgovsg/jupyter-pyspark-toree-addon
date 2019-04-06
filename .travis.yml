@@ -143,7 +143,7 @@ script:
 - HIVE_TAG_SUFFIX=$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)
 - TAG_NAME=${JUPYTER_VERSION}_spark-${SPARK_VERSION}_hadoop-${HADOOP_VERSION}${HIVE_TAG_SUFFIX}_pyspark_debian
 - FULL_IMAGE_NAME="${IMAGE_NAME}:${TAG_NAME}"
-- FROM_DOCKER_TAG="${SPARK_VERSION}_hadoop-${HADOOP_VERSION}${HIVE_TAG_SUFFIX}_pyspark_debian"
+- FROM_DOCKER_TAG="spark-${SPARK_VERSION}_hadoop-${HADOOP_VERSION}${HIVE_TAG_SUFFIX}_pyspark_debian"
 - |
   docker build . -t ${FULL_IMAGE_NAME} \
     --build-arg FROM_DOCKER_IMAGE=${FROM_DOCKER_IMAGE} \
