@@ -1,7 +1,7 @@
 # Jupyter Pyspark Toree Add-On Docker Builder
 
 Python dependencies to install over
-[pjupyter-pyspark-toree-docker](https://github.com/guangie88/jupyter-pyspark-toree-docker).
+[jupyter-pyspark-toree-docker](https://github.com/guangie88/jupyter-pyspark-toree-docker).
 
 ## List of Python 2 and 3 dependencies installed
 
@@ -14,30 +14,29 @@ Python dependencies to install over
 - `plotly`
 - `pyproj`
 - `rtree`
-- `scikit-learn`
+- `scikit-learn` (`sklearn`)
 - `scipy`
 - `seaborn`
 - `shapely`
 - `tensorflow`
 - `xgboost`
 
-## Additional JARs added to Spark to enable reading / writing of the following
+## Generation of `.travis.yml`
 
-- GCS
-- S3
+This requires `python3` and `pip`. This will allow the installation of
+`jinja2-cli`.
 
-## Example build and run commands
+Run the following:
 
 ```bash
-SPARK_VERSION=2.4.0
-
-# Build
-docker build . \
-    --build-arg SPARK_VERSION=${SPARK_VERSION} \
-    -t guangie88/jupyter-pyspark-toree-addon:spark-${SPARK_VERSION}
-
-# Run
-docker run --rm -it \
-    -p 8888:8888 \
-    guangie88/jupyter-pyspark-toree-addon:spark-${SPARK_VERSION}
+python3 -m pip install --user jinja2-cli[yaml]
 ```
+
+Once installed, to generate the new `.travis.yml` file, run:
+
+```bash
+./apply-vars.sh
+```
+
+As such, it is generally only necessary to update `vars.yml` to generate for
+new Spark builds.
