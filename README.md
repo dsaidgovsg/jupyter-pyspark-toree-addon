@@ -23,19 +23,18 @@ Python dependencies to install over
 
 ## Generation of `.travis.yml`
 
-This requires `python3` and `pip`. This will allow the installation of
-`jinja2-cli`.
+This requires `tera-cli`. You may install it via `cargo` command.
 
 Run the following:
 
 ```bash
-python3 -m pip install --user jinja2-cli[yaml]
+cargo install tera-cli --vers 0.2.0
 ```
 
 Once installed, to generate the new `.travis.yml` file, run:
 
 ```bash
-./apply-vars.sh
+./templates/apply-vars.sh
 ```
 
 As such, it is generally only necessary to update `vars.yml` to generate for
