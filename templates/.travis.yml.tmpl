@@ -1,0 +1,40 @@
+language: bash
+
+env:
+  global:
+  - DOCKER_IMAGE=${DOCKER_USERNAME}/jupyter-pyspark-toree-addon
+  - FROM_DOCKER_IMAGE=guangie88/jupyter-pyspark-toree
+
+matrix:
+  include:
+{%- for v in versions %}
+  - services: docker
+    env:
+    - JUPYTER_VERSION={{ v.jupyter }}
+    - SPARK_VERSION={{ v.spark }}
+    - HADOOP_VERSION={{ v.hadoop }}
+    - WITH_HIVE={{ v.with_hive }}
+    - PYTORCH_VERSION={{ v.pytorch }}
+{%- endfor %}
+
+script:
+- HIVE_TAG_SUFFIX="$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)"
+- TAG_NAME="${JUPYTER_VERSION}_spark-${SPARK_VERSION}_hadoop-${HADOOP_VERSION}${HIVE_TAG_SUFFIX}_pyspark_debian"
+- FULL_IMAGE_NAME="${IMAGE_NAME}:${TAG_NAME}"
+- FROM_DOCKER_TAG="spark-${SPARK_VERSION}_hadoop-${HADOOP_VERSION}${HIVE_TAG_SUFFIX}_pyspark_debian"
+- |
+  docker build . -t "${FULL_IMAGE_NAME}" \
+    --build-arg "FROM_DOCKER_IMAGE=${FROM_DOCKER_IMAGE}" \
+    --build-arg "FROM_DOCKER_TAG=${FROM_DOCKER_TAG}" \
+    --build-arg "PYTORCH_VERSION=${PYTORCH_VERSION}" \
+    ;
+
+deploy:
+  provider: script
+  script: bash push-images.sh
+  on:
+    branch: master
+
+branches:
+  only:
+  - master
