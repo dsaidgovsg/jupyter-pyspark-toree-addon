@@ -25,6 +25,7 @@ RUN set -euox pipefail; \
         numpy \
         pandas \
         plotly \
+        pyjwt \
         pyproj \
         rtree \
         scikit-learn \

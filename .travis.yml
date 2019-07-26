@@ -2,7 +2,7 @@ language: bash
 
 env:
   global:
-  - DOCKER_IMAGE=${DOCKER_USERNAME}/jupyter-pyspark-toree-addon
+  - DOCKER_IMAGE=guangie88/jupyter-pyspark-toree-addon
   - FROM_DOCKER_IMAGE=guangie88/jupyter-pyspark-toree
 
 matrix:
