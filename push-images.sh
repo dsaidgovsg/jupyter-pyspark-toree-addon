@@ -4,8 +4,12 @@ set -euo pipefail
 DOCKER_IMAGE="${DOCKER_IMAGE:-guangie88/jupyter-pyspark-toree-addon}"
 docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
 
+# Reestablish variables
+HIVE_TAG_SUFFIX="$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)"
 TAG_NAME="${JUPYTER_VERSION}_spark-${SPARK_VERSION}_hadoop-${HADOOP_VERSION}${HIVE_TAG_SUFFIX}_pyspark_debian"
 FULL_IMAGE_NAME="${DOCKER_IMAGE}:${TAG_NAME}"
+
+# Main tag
 docker push "${FULL_IMAGE_NAME}"
 
 # Alternative tags
