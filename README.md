@@ -1,3 +1,4 @@
+
 # Jupyter Pyspark Toree Add-On Docker Builder
 
 Python dependencies to install over
@@ -12,6 +13,7 @@ Python dependencies to install over
 - `numpy`
 - `pandas`
 - `plotly`
+- `pyjwt`
 - `pyproj`
 - `rtree`
 - `scikit-learn` (`sklearn`)
