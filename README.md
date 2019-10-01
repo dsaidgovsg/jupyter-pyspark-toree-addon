@@ -23,21 +23,12 @@ Python dependencies to install over
 - `tensorflow`
 - `xgboost`
 
-## Generation of `.travis.yml`
+## How to Apply Travis Template
 
-This requires `tera-cli`. You may install it via `cargo` command.
+For Linux user, you can download Tera CLI v0.2 at
+<https://github.com/guangie88/tera-cli/releases> and place it in `PATH`.
 
-Run the following:
+Otherwise, you will need `cargo`, which can be installed via
+[rustup](https://rustup.rs/).
 
-```bash
-cargo install tera-cli --vers 0.2.0
-```
-
-Once installed, to generate the new `.travis.yml` file, run:
-
-```bash
-./templates/apply-vars.sh
-```
-
-As such, it is generally only necessary to update `vars.yml` to generate for
-new Spark builds.
+Once `cargo` is installed, simply run `cargo install tera-cli --version=^0.2.0`.
