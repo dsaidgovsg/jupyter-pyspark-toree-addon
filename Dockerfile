@@ -25,6 +25,7 @@ RUN set -euo pipefail && \
         numpy \
         pandas \
         plotly \
+        pyarrow \
         pyjwt \
         pyproj \
         rtree \

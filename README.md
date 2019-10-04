@@ -13,6 +13,7 @@ Python dependencies to install over
 - `numpy`
 - `pandas`
 - `plotly`
+- `pyarrow`
 - `pyjwt`
 - `pyproj`
 - `rtree`
