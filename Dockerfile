@@ -16,6 +16,7 @@ RUN set -euo pipefail && \
     #
     # Common Python dependencies across 2 and 3
     #
+    # See issue with pyarrow: https://stackoverflow.com/questions/58273063/pandasudf-and-pyarrow-0-15-0
     PYTHON_DEPS=" \
         catboost \
         folium \
@@ -25,7 +26,7 @@ RUN set -euo pipefail && \
         numpy \
         pandas \
         plotly \
-        pyarrow \
+        pyarrow==0.14.* \
         pyjwt \
         pyproj \
         rtree \
