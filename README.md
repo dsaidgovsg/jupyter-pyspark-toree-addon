@@ -9,6 +9,7 @@ Python dependencies to install over
 - `catboost`
 - `folium`
 - `keras`
+- `koalas`
 - `matplotlib`
 - `numpy`
 - `pandas`
