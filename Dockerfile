@@ -21,6 +21,7 @@ RUN set -euo pipefail && \
         catboost \
         folium \
         keras \
+        koalas \
         matplotlib \
         networkx \
         numpy \
