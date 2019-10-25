@@ -4,7 +4,10 @@
 Python dependencies to install over
 [jupyter-pyspark-toree-docker](https://github.com/guangie88/jupyter-pyspark-toree-docker).
 
-## List of Python 2 and 3 dependencies installed
+Support for Python 2.7 has been removed, due to difficulty in installing
+`koalas` (and possibly other packages in the future due to EOL).
+
+## List of Python 3 dependencies installed
 
 - `catboost`
 - `folium`
