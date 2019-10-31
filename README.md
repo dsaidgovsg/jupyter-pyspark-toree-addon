@@ -12,6 +12,7 @@ Support for Python 2.7 has been removed, due to difficulty in installing
 - `catboost`
 - `folium`
 - `keras`
+- `kmodes`
 - `koalas`
 - `matplotlib`
 - `numpy`
