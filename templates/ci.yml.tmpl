@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: jupyterhub-pyspark-toree-addon
+      FROM_DOCKER_IMAGE: guangie88/jupyter-pyspark-toree
       SELF_VERSION: "{{ self_version }}"
       {% raw -%}
       JUPYTER_VERSION: "${{ matrix.version.jupyter }}"
