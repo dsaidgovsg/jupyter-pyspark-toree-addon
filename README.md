@@ -1,6 +1,8 @@
 
 # Jupyter Pyspark Toree Add-On Docker Builder
 
+![CI Status](https://img.shields.io/github/workflow/status/guangie88/jupyter-pyspark-toree-addon/CI/master?label=CI&logo=github&style=for-the-badge)
+
 Python dependencies to install over
 [jupyter-pyspark-toree-docker](https://github.com/guangie88/jupyter-pyspark-toree-docker).
 
