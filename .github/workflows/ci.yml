@@ -1,0 +1,137 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        version:
+        - jupyter:   "1.0.0"
+          spark:     "2.4.4"
+          scala:     "2.11"
+          hadoop:    "3.1.0"
+          python:    "3.5"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.4.4"
+          scala:     "2.11"
+          hadoop:    "3.1.0"
+          python:    "3.6"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.4.4"
+          scala:     "2.11"
+          hadoop:    "3.1.0"
+          python:    "3.7"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.4.4"
+          scala:     "2.12"
+          hadoop:    "3.1.0"
+          python:    "3.5"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.4.4"
+          scala:     "2.12"
+          hadoop:    "3.1.0"
+          python:    "3.6"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.4.4"
+          scala:     "2.12"
+          hadoop:    "3.1.0"
+          python:    "3.7"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.3.4"
+          scala:     "2.11"
+          hadoop:    "2.7.3"
+          python:    "3.5"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.3.4"
+          scala:     "2.11"
+          hadoop:    "2.7.3"
+          python:    "3.6"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.3.4"
+          scala:     "2.11"
+          hadoop:    "2.7.3"
+          python:    "3.7"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.3.4"
+          scala:     "2.12"
+          hadoop:    "2.7.3"
+          python:    "3.5"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.3.4"
+          scala:     "2.12"
+          hadoop:    "2.7.3"
+          python:    "3.6"
+          with_hive: "true"
+        - jupyter:   "1.0.0"
+          spark:     "2.3.4"
+          scala:     "2.12"
+          hadoop:    "2.7.3"
+          python:    "3.7"
+          with_hive: "true"
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: jupyterhub-pyspark-toree-addon
+      FROM_DOCKER_IMAGE: guangie88/jupyter-pyspark-toree
+      SELF_VERSION: "v1"
+      JUPYTER_VERSION: "${{ matrix.version.jupyter }}"
+      SPARK_VERSION: "${{ matrix.version.spark }}"
+      SCALA_VERSION: "${{ matrix.version.scala }}"
+      HADOOP_VERSION: "${{ matrix.version.hadoop }}"
+      PYTHON_VERSION: "${{ matrix.version.python }}"
+      WITH_HIVE: "${{ matrix.version.with_hive }}"
+    steps:
+    - name: Print env vars
+      run: |-
+        echo "${SELF_VERSION}"
+        echo "${JUPYTER_VERSION}"
+        echo "${SPARK_VERSION}"
+        echo "${SCALA_VERSION}"
+        echo "${HADOOP_VERSION}"
+        echo "${PYTHON_VERSION}"
+        echo "${WITH_HIVE}"
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Install tera-cli
+      run: |-
+        wget https://github.com/guangie88/tera-cli/releases/download/v0.2.1/tera_linux_amd64 -O /tmp/tera
+        chmod +x /tmp/tera
+    - name: Check differences between ci.yml and ci.yml.tmpl
+      run: |-
+        cp .github/workflows/ci.yml .github/workflows/ci.yml.backup
+        TERA=/tmp/tera ./templates/apply-vars.sh
+        if ! diff .github/workflows/ci.yml .github/workflows/ci.yml.backup; then echo "ci.yml.tmpl and ci.yml differs!" && exit 1; fi
+    - name: Check shell scripts
+      run: |-
+        shellcheck templates/apply-vars.sh
+        shellcheck push-images.sh
+    - name: Build Docker image
+      run: |-
+        HIVE_TAG_SUFFIX="$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)"
+        TAG_NAME="${SELF_VERSION}_${JUPYTER_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian"
+        FROM_DOCKER_TAG="${JUPYTER_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian"
+        docker build . -t "${IMAGE_NAME}:${TAG_NAME}" \
+          --build-arg "FROM_DOCKER_IMAGE=${FROM_DOCKER_IMAGE}" \
+          --build-arg "FROM_DOCKER_TAG=${FROM_DOCKER_TAG}"
+    - name: Push Docker image
+      run: bash push-images.sh
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      if: github.event_name == 'push'
