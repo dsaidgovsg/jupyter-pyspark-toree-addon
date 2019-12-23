@@ -27,6 +27,7 @@ RUN set -euo pipefail && \
         networkx \
         numpy \
         pandas \
+        pendulum==1.4.4 \
         plotly \
         pyarrow==0.14.* \
         pyjwt \
