@@ -17,6 +17,7 @@ Support for Python 2.7 has been removed, due to difficulty in installing
 - `matplotlib`
 - `numpy`
 - `pandas`
+- `pendulum==1.4.4` (Airflow uses 1.4.4)
 - `plotly`
 - `pyarrow`
 - `pyjwt`
