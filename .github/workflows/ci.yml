@@ -97,15 +97,6 @@ jobs:
       PYTHON_VERSION: "${{ matrix.version.python }}"
       WITH_HIVE: "${{ matrix.version.with_hive }}"
     steps:
-    - name: Print env vars
-      run: |-
-        echo "${SELF_VERSION}"
-        echo "${JUPYTER_VERSION}"
-        echo "${SPARK_VERSION}"
-        echo "${SCALA_VERSION}"
-        echo "${HADOOP_VERSION}"
-        echo "${PYTHON_VERSION}"
-        echo "${WITH_HIVE}"
     - name: Checkout code
       uses: actions/checkout@v1
     - name: Install tera-cli
