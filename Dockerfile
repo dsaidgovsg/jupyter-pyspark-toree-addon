@@ -20,6 +20,7 @@ RUN set -euo pipefail && \
     PYTHON_DEPS=" \
         catboost \
         folium \
+        iso3166 \
         keras \
         kmodes \
         koalas \
