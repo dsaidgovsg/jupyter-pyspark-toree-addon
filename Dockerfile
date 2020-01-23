@@ -23,6 +23,7 @@ RUN set -euo pipefail && \
         keras \
         kmodes \
         koalas \
+        iso3166 \
         matplotlib \
         networkx \
         numpy \
