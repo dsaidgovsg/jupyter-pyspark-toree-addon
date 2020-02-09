@@ -38,6 +38,7 @@ jobs:
       IMAGE_NAME: jupyter-pyspark-toree-addon
       FROM_DOCKER_IMAGE: guangie88/jupyter-pyspark-toree
       SELF_VERSION: "{{ self_version }}"
+      BASE_VERSION: "v1"
       {% raw -%}
       JUPYTER_VERSION: "${{ matrix.version.jupyter }}"
       SPARK_VERSION: "${{ matrix.version.spark }}"
@@ -51,7 +52,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Install tera-cli
       run: |-
-        wget https://github.com/guangie88/tera-cli/releases/download/v0.2.1/tera_linux_amd64 -O /tmp/tera
+        wget https://github.com/guangie88/tera-cli/releases/download/v0.3.0/tera_linux_amd64 -O /tmp/tera
         chmod +x /tmp/tera
     - name: Check differences between ci.yml and ci.yml.tmpl
       run: |-
@@ -66,10 +67,14 @@ jobs:
       run: |-
         HIVE_TAG_SUFFIX="$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)"
         TAG_NAME="${SELF_VERSION}_${JUPYTER_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian"
-        FROM_DOCKER_TAG="${JUPYTER_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian"
         docker build . -t "${IMAGE_NAME}:${TAG_NAME}" \
-          --build-arg "FROM_DOCKER_IMAGE=${FROM_DOCKER_IMAGE}" \
-          --build-arg "FROM_DOCKER_TAG=${FROM_DOCKER_TAG}"
+          --build-arg "BASE_VERSION=${BASE_VERSION}" \
+          --build-arg "JUPYTER_VERSION=${JUPYTER_VERSION}" \
+          --build-arg "SPARK_VERSION=${SPARK_VERSION}" \
+          --build-arg "SCALA_VERSION=${SCALA_VERSION}" \
+          --build-arg "HADOOP_VERSION=${HADOOP_VERSION}" \
+          --build-arg "PYTHON_VERSION=${PYTHON_VERSION}" \
+          --build-arg "HIVE_TAG_SUFFIX=${HIVE_TAG_SUFFIX}" \
     - name: Push Docker image
       run: bash push-images.sh
       env:

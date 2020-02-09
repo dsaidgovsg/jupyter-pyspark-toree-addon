@@ -41,7 +41,7 @@ For Linux user, you can download Tera CLI v0.2 at
 Otherwise, you will need `cargo`, which can be installed via
 [rustup](https://rustup.rs/).
 
-Once `cargo` is installed, simply run `cargo install tera-cli --version=^0.2.0`.
+Once `cargo` is installed, simply run `cargo install tera-cli --version=^0.3.0`.
 
 Always make changes in `templates/ci.yml.tmpl` since the template will be
 applied onto `.github/workflows/ci.yml`.
