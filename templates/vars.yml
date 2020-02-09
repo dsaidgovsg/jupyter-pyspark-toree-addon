@@ -2,7 +2,7 @@ self_version: "v1"
 
 versions:
 - jupyter:   ['1.0.0']
-  spark:     ['2.4.4']
+  spark:     ['2.4.4', '2.4.5']
   scala:     ['2.11', '2.12']
   hadoop:    ['3.1.0']
   python:    ['3.5', '3.6', '3.7']
