@@ -35,13 +35,13 @@ Support for Python 2.7 has been removed, due to difficulty in installing
 
 ## How to Apply CI Template
 
-For Linux user, you can download Tera CLI v0.2 at
+For Linux user, you can download Tera CLI v0.4 at
 <https://github.com/guangie88/tera-cli/releases> and place it in `PATH`.
 
 Otherwise, you will need `cargo`, which can be installed via
 [rustup](https://rustup.rs/).
 
-Once `cargo` is installed, simply run `cargo install tera-cli --version=^0.3.0`.
+Once `cargo` is installed, simply run `cargo install tera-cli --version=^0.4.0`.
 
 Always make changes in `templates/ci.yml.tmpl` since the template will be
 applied onto `.github/workflows/ci.yml`.
