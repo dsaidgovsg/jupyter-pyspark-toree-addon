@@ -1,13 +1,13 @@
 # Debian based
-ARG BASE_VERSION="v1"
-ARG JUPYTER_VERSION
+ARG BASE_VERSION="v2"
+ARG NOTEBOOK_VERSION
 ARG SPARK_VERSION
 ARG SCALA_VERSION
 ARG HADOOP_VERSION
 ARG PYTHON_VERSION
 ARG HIVE_TAG_SUFFIX
 
-FROM guangie88/jupyter-pyspark-toree:${BASE_VERSION}_${JUPYTER_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian
+FROM guangie88/jupyter-pyspark-toree:${BASE_VERSION}_${NOTEBOOK_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian
 
 RUN set -euo pipefail && \
     #
@@ -18,9 +18,14 @@ RUN set -euo pipefail && \
         wget \
         libspatialindex-dev; \
     #
-    # Common Python dependencies across 2 and 3
+    # Fix pyarrow issues
     #
-    # See issue with pyarrow: https://stackoverflow.com/questions/58273063/pandasudf-and-pyarrow-0-15-0
+    # Python 3.8 requires pyarrow>=0.15.* due to Cython build issues
+    # But since Python 3.8 doesn't work with PySpark, we still continue to use pyarrow==0.14.*
+    # See issue and fix:
+    # - https://stackoverflow.com/questions/58273063/pandasudf-and-pyarrow-0-15-0
+    # - https://spark.apache.org/docs/2.4.5/sql-pyspark-pandas-with-arrow.html#compatibiliy-setting-for-pyarrow--0150-and-spark-23x-24x
+    echo "ARROW_PRE_0_15_IPC_FORMAT=1" >> "${SPARK_HOME}/conf/spark-env.sh"; \
     PYTHON_DEPS=" \
         catboost \
         folium \
