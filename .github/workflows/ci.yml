@@ -125,7 +125,7 @@ jobs:
     env:
       IMAGE_NAME: jupyter-pyspark-toree-addon
       FROM_DOCKER_IMAGE: guangie88/jupyter-pyspark-toree
-      SELF_VERSION: "v2"
+      SELF_VERSION: "v3"
       BASE_VERSION: "v2"
       NOTEBOOK_VERSION: "${{ matrix.version.notebook }}"
       SPARK_VERSION: "${{ matrix.version.spark }}"

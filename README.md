@@ -11,6 +11,7 @@ Support for Python 2.7 has been removed, due to difficulty in installing
 
 ## List of Python 3 dependencies installed
 
+- `attrs`
 - `catboost`
 - `folium`
 - `iso3166`
@@ -25,6 +26,7 @@ Support for Python 2.7 has been removed, due to difficulty in installing
 - `pyarrow`
 - `pyjwt`
 - `pyproj`
+- `python-dateutil`
 - `rtree`
 - `scikit-learn` (`sklearn`)
 - `scipy`
