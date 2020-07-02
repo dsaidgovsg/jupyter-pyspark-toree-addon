@@ -27,6 +27,7 @@ RUN set -euo pipefail && \
     # - https://spark.apache.org/docs/2.4.5/sql-pyspark-pandas-with-arrow.html#compatibiliy-setting-for-pyarrow--0150-and-spark-23x-24x
     echo "ARROW_PRE_0_15_IPC_FORMAT=1" >> "${SPARK_HOME}/conf/spark-env.sh"; \
     PYTHON_DEPS=" \
+        attrs \
         catboost \
         folium \
         iso3166 \
@@ -42,6 +43,7 @@ RUN set -euo pipefail && \
         pyarrow==0.14.* \
         pyjwt \
         pyproj \
+        python-dateutil \
         rtree \
         scikit-learn \
         sklearn \
