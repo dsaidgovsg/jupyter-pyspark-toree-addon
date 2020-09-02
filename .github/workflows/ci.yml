@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: jupyter-pyspark-toree-addon
-      FROM_DOCKER_IMAGE: guangie88/jupyter-pyspark-toree
+      FROM_DOCKER_IMAGE: dsaidgovsg/jupyter-pyspark-toree
       SELF_VERSION: "v3"
       BASE_VERSION: "v2"
       NOTEBOOK_VERSION: "${{ matrix.version.notebook }}"
@@ -166,4 +166,5 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        IMAGE_ORG: ${{ secrets.IMAGE_ORG }}
       if: github.event_name == 'push'
