@@ -36,7 +36,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: jupyter-pyspark-toree-addon
-      FROM_DOCKER_IMAGE: dsaidgovsg/jupyter-pyspark-toree
       SELF_VERSION: "{{ self_version }}"
       BASE_VERSION: "{{ base_version }}"
       {% raw -%}
@@ -48,6 +47,12 @@ jobs:
       WITH_HIVE: "${{ matrix.version.with_hive }}"
       {%- endraw %}
     steps:
+    - name: Set global environment variables
+      run: |-
+        TAG_NAME="${SELF_VERSION}_${NOTEBOOK_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian"
+        echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+        HIVE_TAG_SUFFIX="$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)"
+        echo "HIVE_TAG_SUFFIX=${HIVE_TAG_SUFFIX}" >> $GITHUB_ENV
     - name: Checkout code
       uses: actions/checkout@v1
     - name: Install tera-cli
@@ -65,8 +70,6 @@ jobs:
         shellcheck push-images.sh
     - name: Build Docker image
       run: |-
-        HIVE_TAG_SUFFIX="$(if [ "${WITH_HIVE}" = "true" ]; then echo _hive; fi)"
-        TAG_NAME="${SELF_VERSION}_${NOTEBOOK_VERSION}_spark-${SPARK_VERSION}_scala-${SCALA_VERSION}_hadoop-${HADOOP_VERSION}_python-${PYTHON_VERSION}${HIVE_TAG_SUFFIX}_debian"
         docker build . -t "${IMAGE_NAME}:${TAG_NAME}" \
           --build-arg "BASE_VERSION=${BASE_VERSION}" \
           --build-arg "NOTEBOOK_VERSION=${NOTEBOOK_VERSION}" \
